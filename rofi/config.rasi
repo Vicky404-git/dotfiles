@@ -1,0 +1,74 @@
+configuration {
+    font: "JetBrainsMono Nerd Font 14";
+    show-icons: true;
+    display-drun: "📜 Archives:";
+    drun-display-format: "{name}";
+    disable-history: false;
+}
+
+* {
+    bg: #282828cc; /* Translucent dark wood */
+    bg-alt: #3c3836; /* Lighter iron/wood */
+    fg: #ebdbb2; /* Parchment white */
+    accent: #d79921; /* Forged Gold */
+    
+    background-color: transparent;
+    text-color: @fg;
+    margin: 0;
+    padding: 0;
+}
+
+window {
+    width: 600px;
+    background-color: @bg;
+    border: 2px;
+    border-color: @accent;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 0px 0px 20px 0px;
+    children: [prompt, entry];
+}
+
+prompt {
+    text-color: @accent;
+    margin: 0px 15px 0px 0px;
+}
+
+entry {
+    placeholder: "Search the ledger...";
+    placeholder-color: #a89984;
+}
+
+listview {
+    lines: 7;
+    spacing: 8px;
+    scrollbar: false;
+}
+
+element {
+    padding: 10px;
+    border-radius: 8px;
+}
+
+element selected {
+    background-color: @accent;
+    text-color: #282828;
+}
+
+element-text {
+    background-color: inherit;
+    text-color: inherit;
+    vertical-align: 0.5;
+}
+
+element-icon {
+    size: 24px;
+    margin: 0px 10px 0px 0px;
+    background-color: transparent;
+}

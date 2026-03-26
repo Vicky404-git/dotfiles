@@ -1,0 +1,35 @@
+* {
+  font-family: monospace;
+  font-size: 14px;
+}
+
+window#waybar {
+  background: rgba(20, 20, 20, 0.9);
+  color: white;
+}
+ 
+#workspaces button {
+  padding: 5px;
+  color: gray;
+}
+
+#workspaces button.active {
+  color: white;
+}
+
+#clock {
+  font-weight: bold;
+}
+
+#battery {
+  color: lightgreen;
+}
+
+#network {
+  color: cyan;
+}
+
+#pulseaudio {
+  color: orange;
+}
+

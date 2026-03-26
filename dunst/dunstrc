@@ -1,0 +1,48 @@
+[global]
+    font = JetBrainsMono Nerd Font 11
+    
+    # Allow a small amount of markup (like bolding text)
+    markup = yes
+    
+    # The format of the message. %s is the summary, %b is the body
+    format = "<b>%s</b>\n%b"
+    
+    # Placement and size
+    width = 300
+    height = 200
+    origin = top-right
+    offset = 20x45
+    
+    # Aesthetics
+    frame_width = 2
+    frame_color = "#33ccff"
+    corner_radius = 8
+    
+    # Spacing
+    padding = 15
+    horizontal_padding = 15
+    
+    # Match the background of your Polybar/Rofi
+    background = "#141414"
+    foreground = "#ebdbb2"
+    
+    # Give it a slight timeout so it doesn't stay on screen forever (in seconds)
+    timeout = 5
+
+[urgency_low]
+    background = "#141414"
+    foreground = "#595959"
+    frame_color = "#282828"
+    timeout = 3
+
+[urgency_normal]
+    background = "#141414"
+    foreground = "#ebdbb2"
+    frame_color = "#33ccff"
+    timeout = 5
+
+[urgency_critical]
+    background = "#282828"
+    foreground = "#ebdbb2"
+    frame_color = "#cc241d" # Crimson red for critical alerts
+    timeout = 0 # Forces you to click it to dismiss

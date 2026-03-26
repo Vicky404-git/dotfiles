@@ -1,0 +1,159 @@
+# --- i3 CONFIGURATION (Translated from Hyprland) ---
+
+# Set Windows/Super key as the main modifier
+set $mod Mod4
+
+# Font for window titles and bar
+font pango:monospace 10
+
+default_border pixel 2
+default_floating_border pixel 2
+
+# --- Autostart Applications ---
+# Start picom for blur, shadows, and animations
+exec --no-startup-id picom -b
+# Start bluetooth 
+exec --no-startup-id blueman-applet
+# Start network manager applet
+exec --no-startup-id nm-applet
+# Set your wallpaper (Replace the path with your actual anime wallpaper image)
+exec_always --no-startup-id feh --bg-fill ~/Downloads/wallhaven1.png 
+
+# Start the notification daemon
+exec --no-startup-id dunst
+
+# Launch btop in a dedicated terminal on boot
+exec --no-startup-id kitty -T "SystemMonitor" btop --utf-force
+for_window [title="SystemMonitor"] border pixel 0
+
+# --- Visuals (Gaps & Borders) ---
+gaps inner 5
+gaps outer 10
+default_border pixel 2
+default_floating_border pixel 2
+
+# --- Core Keybindings ---
+# Terminal
+bindsym $mod+Return exec kitty
+
+# Lock the screen
+bindsym $mod+x exec --no-startup-id ~/.config/i3/lock.sh
+
+# App Launcher
+bindsym $mod+d exec "rofi -show drun"
+
+# Close Window
+bindsym $mod+q kill
+
+# Reload config (Hyprland was Mod+Shift+R, i3 usually uses Mod+Shift+C to reload and R to restart)
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+
+# Floating Toggle
+bindsym $mod+v floating toggle
+
+# Launch Yazi File Manager
+bindsym $mod+e exec kitty -e yazi
+
+# --- Focus Movement (Vim keys) ---
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# --- Tiling Modifiers ---
+# Split horizontal
+bindsym $mod+b split h
+# Split vertical
+bindsym $mod+Shift+v split v
+# Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# --- The Scratchpad ---
+# Move window to scratchpad
+bindsym $mod+Shift+s move scratchpad
+# Toggle scratchpad visibility
+bindsym $mod+s scratchpad show
+
+# --- Workspaces ---
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws0 "0"
+
+# --- Hardware Dashboard ---
+# Force the system monitor to always open on Workspace V
+assign [title="SystemMonitor"] "5"
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws0
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+
+# --- Screenshots  ---
+# Screenshot
+bindsym Print exec --no-startup-id flameshot gui
+
+# --- Screenrecord -- 
+# Launch OBS Studio
+bindsym $mod+o exec obs
+
+# --- Hardware Controls ---
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+# --- Media Playback Controls ---
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioStop exec playerctl stop
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioNext exec playerctl next
+
+# --- Exit i3 ---
+# Custom Rofi Power Menu
+bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/powermenu.sh
+
+# --- Status Bar ---
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# --- Drop-down Scratchpad Terminal ---
+# 1. Launch a specifically named Kitty window on boot
+exec --no-startup-id kitty --class scratchpad_term
+
+# 2. Force it to float, set a good size, and banish it to the hidden scratchpad
+for_window [class="scratchpad_term"] floating enable, resize set 1000 650, move scratchpad, border pixel 2
+
+# 3. Bind Super + ` (the tilde key above Tab) to summon and dismiss it
+bindsym $mod+grave [class="scratchpad_term"] scratchpad show; move position center
+
+# Move any currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Cycle through all hidden scratchpad windows
+bindsym $mod+minus scratchpad show
