@@ -22,6 +22,9 @@ exec_always --no-startup-id feh --bg-fill ~/Downloads/wallhaven1.png
 # Start the notification daemon
 exec --no-startup-id dunst
 
+# Start DaemonV Background Observer
+exec --no-startup-id /home/vicky-404/Desktop/Projects/DaemonV/start.sh
+
 # Launch btop in a dedicated terminal on boot
 exec --no-startup-id kitty -T "SystemMonitor" btop --utf-force
 for_window [title="SystemMonitor"] border pixel 0
