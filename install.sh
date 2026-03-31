@@ -7,7 +7,7 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}=======================================${NC}"
-echo -e "${GREEN}   Vicky-404's Dotfiles Installer   ${NC}"
+echo -e "${GREEN}   Vicky-404's Universal Installer   ${NC}"
 echo -e "${BLUE}=======================================${NC}"
 
 # --- Step 1: Choose the Window Manager ---
@@ -16,12 +16,23 @@ echo "1) i3 (X11 - Stable, Classic)"
 echo "2) Hyprland (Wayland - Modern, Animations)"
 read -p "Enter 1 or 2: " wm_choice
 
-# --- Step 2: Install Base Dependencies ---
-echo -e "\n${BLUE}[*] Installing core terminal utilities...${NC}"
-sudo apt update
-sudo apt install -y kitty zsh neovim git curl wget btop rofi dunst lsd playerctl brightnessctl
+# --- Step 2: System Update & Core Hardware Services ---
+echo -e "\n${BLUE}[*] Updating package lists and existing software...${NC}"
+sudo apt update -y && sudo apt upgrade -y
 
-# --- Step 3: Install WM Specific Packages ---
+echo -e "\n${BLUE}[*] Installing Core Hardware Services (Wi-Fi, Bluetooth, Audio)...${NC}"
+# apt automatically skips packages that are already installed and up-to-date
+sudo apt install -y network-manager network-manager-gnome bluez blueman pipewire wireplumber
+
+echo -e "\n${BLUE}[*] Enabling Network and Bluetooth Daemons...${NC}"
+sudo systemctl enable --now NetworkManager
+sudo systemctl enable --now bluetooth
+
+# --- Step 3: Install Core Terminal Utilities ---
+echo -e "\n${BLUE}[*] Installing terminal utilities and aesthetics...${NC}"
+sudo apt install -y kitty zsh neovim git curl wget btop rofi dunst lsd playerctl brightnessctl fastfetch
+
+# --- Step 4: Install WM Specific Packages ---
 if [ "$wm_choice" == "1" ]; then
   echo -e "${BLUE}[*] Installing i3 and X11 utilities...${NC}"
   sudo apt install -y i3 picom polybar feh flameshot
@@ -35,14 +46,13 @@ else
   exit 1
 fi
 
-# --- Step 4: Backup Existing Configurations ---
+# --- Step 5: Backup Existing Configurations ---
 echo -e "\n${BLUE}[*] Backing up existing configurations to ~/.config/*.bak...${NC}"
 mkdir -p ~/.config
 
 # Array of folders we are about to symlink
 configs=("kitty" "nvim" "btop" "rofi" "dunst" "fastfetch" "yazi" "$WM_DIR")
 
-# Add polybar/waybar based on choice
 if [ "$wm_choice" == "1" ]; then configs+=("polybar" "picom"); fi
 if [ "$wm_choice" == "2" ]; then configs+=("waybar"); fi
 
@@ -53,8 +63,8 @@ for config in "${configs[@]}"; do
   fi
 done
 
-# --- Step 5: Create the Symlinks ---
-echo -e "\n${BLUE}[*] Creating symlinks to ~/dotfiles...${NC}"
+# --- Step 6: Create the Symlinks ---
+echo -e "\n${BLUE}[*] Wiring symlinks to ~/dotfiles...${NC}"
 
 for config in "${configs[@]}"; do
   # Remove existing symlink if it exists
@@ -64,22 +74,12 @@ for config in "${configs[@]}"; do
   echo -e "${GREEN}✔ Linked $config${NC}"
 done
 
-# Link zshrc to home directory
-if [ -f "$HOME/.zshrc" ] && [ ! -L "$HOME/.zshrc" ]; then
-  mv "$HOME/.zshrc" "$HOME/.zshrc.bak"
-fi
-# Assuming you move your .zshrc into your dotfiles repo under ~/dotfiles/zshrc
-# ln -s "$HOME/dotfiles/zshrc" "$HOME/.zshrc"
-
-# --- Step 6: Change Default Shell ---
+# --- Step 7: Change Default Shell ---
 echo -e "\n${BLUE}[*] Setting ZSH as the default shell...${NC}"
 chsh -s $(which zsh)
 
 echo -e "\n${GREEN}=======================================${NC}"
 echo -e "${GREEN}   Installation Complete! 🚀           ${NC}"
 echo -e "${GREEN}=======================================${NC}"
-if [ "$wm_choice" == "1" ]; then
-  echo "Please log out and select 'i3' from your display manager."
-else
-  echo "Please log out and select 'Hyprland' from your display manager."
-fi
+echo "Wi-Fi and Bluetooth services have been activated."
+echo "Please completely reboot your system to apply all hardware changes."
