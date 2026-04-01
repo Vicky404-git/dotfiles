@@ -17,8 +17,7 @@ exec --no-startup-id blueman-applet
 # Start network manager applet
 exec --no-startup-id nm-applet
 # Set your wallpaper (Replace the path with your actual anime wallpaper image)
-exec_always --no-startup-id feh --bg-fill ~/Downloads/wallhaven1.png 
-
+exec_always --no-startup-id feh --bg-fill ~/dotfiles/wallpaper/wallhaven1.png
 # Start the notification daemon
 exec --no-startup-id dunst
 
