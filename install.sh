@@ -51,7 +51,7 @@ echo -e "\n${BLUE}[*] Backing up existing configurations to ~/.config/*.bak...${
 mkdir -p ~/.config
 
 # Array of folders we are about to symlink
-configs=("kitty" "nvim" "btop" "rofi" "dunst" "fastfetch" "yazi" "$WM_DIR")
+configs=("kitty" "redshift" "nvim" "btop" "rofi" "dunst" "fastfetch" "yazi" "$WM_DIR")
 
 if [ "$wm_choice" == "1" ]; then configs+=("polybar" "picom"); fi
 if [ "$wm_choice" == "2" ]; then configs+=("waybar"); fi
