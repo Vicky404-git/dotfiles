@@ -54,6 +54,13 @@ bindsym $mod+Shift+r restart
 # Floating Toggle
 bindsym $mod+v floating toggle
 
+# --- Night Mode (Redshift) ---
+bindsym $mod+n exec --no-startup-id redshift -P -O 4000
+bindsym $mod+Shift+n exec --no-startup-id redshift -x
+
+# Toggle Monochrome Mode
+bindsym $mod+m exec --no-startup-id ~/.config/i3/mono-toggle.sh
+
 # Launch Yazi File Manager
 bindsym $mod+e exec kitty -e yazi
 
