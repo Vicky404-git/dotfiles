@@ -28,6 +28,10 @@ exec --no-startup-id /home/vicky-404/Desktop/Projects/DaemonV/start.sh
 exec --no-startup-id kitty -T "SystemMonitor" btop --utf-force
 for_window [title="SystemMonitor"] border pixel 0
 
+# for Brave Rewards
+exec --no-startup-id gnome-keyring-daemon --start --components=secrets
+exec --no-startup-id gnome-keyring-daemon --start --components=secrets
+
 # --- Visuals (Gaps & Borders) ---
 gaps inner 5
 gaps outer 10
@@ -55,7 +59,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+v floating toggle
 
 # --- Night Mode (Redshift) ---
-bindsym $mod+n exec --no-startup-id redshift -P -O 3000
+bindsym $mod+n exec --no-startup-id redshift -P -O 2000
 bindsym $mod+Shift+n exec --no-startup-id redshift -x
 
 # Toggle Monochrome Mode
