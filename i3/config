@@ -59,7 +59,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+v floating toggle
 
 # --- Night Mode (Redshift) ---
-bindsym $mod+n exec --no-startup-id redshift -P -O 2000
+bindsym $mod+n exec --no-startup-id redshift -P -O 2500
 bindsym $mod+Shift+n exec --no-startup-id redshift -x
 
 # Toggle Monochrome Mode
