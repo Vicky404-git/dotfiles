@@ -20,6 +20,9 @@ exec --no-startup-id nm-applet
 exec_always --no-startup-id feh --bg-fill ~/dotfiles/wallpaper/wallhaven1.png
 # Start the notification daemon
 exec --no-startup-id dunst
+# Launch OpenCode in a floating terminal (example using kitty or alacritty)
+bindsym $mod+Shift+o exec --no-startup-id alacritty -e opencode
+exec --no-startup-id kdeconnect-indicator
 
 # Start DaemonV Background Observer
 exec --no-startup-id /home/vicky-404/Desktop/Projects/DaemonV/start.sh
@@ -27,10 +30,6 @@ exec --no-startup-id /home/vicky-404/Desktop/Projects/DaemonV/start.sh
 # Launch btop in a dedicated terminal on boot
 exec --no-startup-id kitty -T "SystemMonitor" btop --utf-force
 for_window [title="SystemMonitor"] border pixel 0
-
-# for Brave Rewards
-exec --no-startup-id gnome-keyring-daemon --start --components=secrets
-exec --no-startup-id gnome-keyring-daemon --start --components=secrets
 
 # --- Visuals (Gaps & Borders) ---
 gaps inner 5
@@ -57,13 +56,6 @@ bindsym $mod+Shift+r restart
 
 # Floating Toggle
 bindsym $mod+v floating toggle
-
-# --- Night Mode (Redshift) ---
-bindsym $mod+n exec --no-startup-id redshift -P -O 2500
-bindsym $mod+Shift+n exec --no-startup-id redshift -x
-
-# Toggle Monochrome Mode
-bindsym $mod+m exec --no-startup-id ~/.config/i3/mono-toggle.sh
 
 # Launch Yazi File Manager
 bindsym $mod+e exec kitty -e yazi

@@ -7,9 +7,9 @@
 
     # Placement and size
     width = 300
-    height = 0              # IMPORTANT → dynamic height (don’t fix to 200)
+    height = (0, 300)       # FIXED: New syntax. (0, max_height) for dynamic sizing.
     origin = top-right
-    offset = 20x45
+    offset = (20, 45)       # FIXED: New syntax. Brackets and a comma instead of 'x'.
 
     # Aesthetics
     frame_width = 2
