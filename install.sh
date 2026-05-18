@@ -1,85 +1,284 @@
 #!/bin/bash
 
-# --- Color Variables for Aesthetic Output ---
+# =========================================
+# Vicky-404 Universal Linux Installer
+# Supports:
+# - Debian / Ubuntu
+# - Gentoo
+# =========================================
+
+# ---------- Colors ----------
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 RED='\033[0;31m'
-NC='\033[0m' # No Color
+YELLOW='\033[1;33m'
+NC='\033[0m'
 
-echo -e "${BLUE}=======================================${NC}"
-echo -e "${GREEN}   Vicky-404's Universal Installer   ${NC}"
-echo -e "${BLUE}=======================================${NC}"
+# ---------- Detect Distro ----------
+if [ -f /etc/gentoo-release ]; then
+    DISTRO="gentoo"
 
-# --- Step 1: Choose the Window Manager ---
-echo "Which environment are you installing?"
-echo "1) i3 (X11 - Stable, Classic)"
-echo "2) Hyprland (Wayland - Modern, Animations)"
-read -p "Enter 1 or 2: " wm_choice
+elif [ -f /etc/debian_version ]; then
+    DISTRO="debian"
 
-# --- Step 2: System Update & Core Hardware Services ---
-echo -e "\n${BLUE}[*] Updating package lists and existing software...${NC}"
-sudo apt update -y && sudo apt upgrade -y
-
-echo -e "\n${BLUE}[*] Installing Core Hardware Services (Wi-Fi, Bluetooth, Audio)...${NC}"
-# apt automatically skips packages that are already installed and up-to-date
-sudo apt install -y network-manager network-manager-gnome bluez blueman pipewire wireplumber
-
-echo -e "\n${BLUE}[*] Enabling Network and Bluetooth Daemons...${NC}"
-sudo systemctl enable --now NetworkManager
-sudo systemctl enable --now bluetooth
-
-# --- Step 3: Install Core Terminal Utilities ---
-echo -e "\n${BLUE}[*] Installing terminal utilities and aesthetics...${NC}"
-sudo apt install -y kitty zsh neovim git curl wget btop rofi dunst lsd playerctl brightnessctl fastfetch
-
-# --- Step 4: Install WM Specific Packages ---
-if [ "$wm_choice" == "1" ]; then
-  echo -e "${BLUE}[*] Installing i3 and X11 utilities...${NC}"
-  sudo apt install -y i3 picom polybar feh flameshot
-  WM_DIR="i3"
-elif [ "$wm_choice" == "2" ]; then
-  echo -e "${BLUE}[*] Installing Hyprland and Wayland utilities...${NC}"
-  sudo apt install -y hyprland waybar swaybg
-  WM_DIR="hypr"
 else
-  echo -e "${RED}[!] Invalid choice. Exiting.${NC}"
-  exit 1
+    DISTRO="unknown"
 fi
 
-# --- Step 5: Backup Existing Configurations ---
-echo -e "\n${BLUE}[*] Backing up existing configurations to ~/.config/*.bak...${NC}"
-mkdir -p ~/.config
+# ---------- Detect sudo ----------
+SUDO=""
 
-# Array of folders we are about to symlink
-configs=("kitty" "redshift" "nvim" "btop" "rofi" "dunst" "fastfetch" "yazi" "$WM_DIR")
+if [ "$EUID" -ne 0 ]; then
+    SUDO="sudo"
+fi
 
-if [ "$wm_choice" == "1" ]; then configs+=("polybar" "picom"); fi
-if [ "$wm_choice" == "2" ]; then configs+=("waybar"); fi
+# ---------- Banner ----------
+clear
+
+echo -e "${BLUE}===========================================${NC}"
+echo -e "${GREEN}      Vicky-404 Universal Installer        ${NC}"
+echo -e "${BLUE}===========================================${NC}"
+
+echo -e "${YELLOW}Detected distro:${NC} $DISTRO"
+
+if [ "$DISTRO" = "unknown" ]; then
+    echo -e "${RED}[!] Unsupported distro${NC}"
+    exit 1
+fi
+
+# ---------- WM Selection ----------
+echo
+echo "Choose your environment:"
+echo "1) i3 (X11 - Stable, Lightweight)"
+echo "2) Hyprland (Wayland - Modern)"
+echo
+
+read -p "Enter choice (1 or 2): " wm_choice
+
+# =========================================
+# PACKAGE INSTALL FUNCTIONS
+# =========================================
+
+install_debian_core() {
+
+    echo -e "\n${BLUE}[*] Updating system...${NC}"
+
+    $SUDO apt update -y
+    $SUDO apt upgrade -y
+
+    echo -e "\n${BLUE}[*] Installing core packages...${NC}"
+
+    $SUDO apt install -y \
+        git \
+        curl \
+        wget \
+        vim \
+        neovim \
+        kitty \
+        zsh \
+        tmux \
+        htop \
+        btop \
+        fastfetch \
+        rofi \
+        dunst \
+        yazi \
+        playerctl \
+        brightnessctl \
+        network-manager \
+        network-manager-gnome \
+        bluez \
+        blueman \
+        pipewire \
+        wireplumber \
+        feh \
+        unzip \
+        flameshot \
+        picom
+
+    echo -e "\n${BLUE}[*] Enabling services...${NC}"
+
+    $SUDO systemctl enable --now NetworkManager
+    $SUDO systemctl enable --now bluetooth
+}
+
+install_gentoo_core() {
+
+    echo -e "\n${BLUE}[*] Syncing Portage...${NC}"
+
+    emerge --sync
+
+    echo -e "\n${BLUE}[*] Installing core packages...${NC}"
+
+    emerge \
+        app-editors/neovim \
+        app-editors/vim \
+        app-shells/zsh \
+        app-shells/tmux \
+        app-admin/htop \
+        sys-process/btop \
+        x11-terms/kitty \
+        x11-misc/rofi \
+        x11-misc/dunst \
+        media-gfx/feh \
+        app-misc/fastfetch \
+        net-misc/networkmanager \
+        net-wireless/blueman \
+        media-video/pipewire \
+        media-video/wireplumber \
+        app-misc/yazi \
+        media-gfx/flameshot \
+        x11-misc/picom \
+        dev-vcs/git \
+        net-misc/curl \
+        net-misc/wget
+
+    echo -e "\n${BLUE}[*] Enabling services...${NC}"
+
+    rc-update add NetworkManager default
+    rc-update add bluetooth default
+
+    rc-service NetworkManager start
+    rc-service bluetooth start
+}
+
+# =========================================
+# INSTALL CORE
+# =========================================
+
+if [ "$DISTRO" = "debian" ]; then
+    install_debian_core
+
+elif [ "$DISTRO" = "gentoo" ]; then
+    install_gentoo_core
+fi
+
+# =========================================
+# WINDOW MANAGER INSTALL
+# =========================================
+
+if [ "$wm_choice" = "1" ]; then
+
+    echo -e "\n${BLUE}[*] Installing i3 setup...${NC}"
+
+    if [ "$DISTRO" = "debian" ]; then
+
+        $SUDO apt install -y \
+            i3 \
+            polybar
+
+    elif [ "$DISTRO" = "gentoo" ]; then
+
+        emerge \
+            x11-wm/i3 \
+            x11-misc/polybar
+    fi
+
+    WM_DIR="i3"
+
+elif [ "$wm_choice" = "2" ]; then
+
+    echo -e "\n${BLUE}[*] Installing Hyprland setup...${NC}"
+
+    if [ "$DISTRO" = "debian" ]; then
+
+        $SUDO apt install -y \
+            hyprland \
+            waybar \
+            swaybg
+
+    elif [ "$DISTRO" = "gentoo" ]; then
+
+        emerge \
+            gui-wm/hyprland \
+            gui-apps/waybar \
+            gui-apps/swaybg
+    fi
+
+    WM_DIR="hypr"
+
+else
+    echo -e "${RED}[!] Invalid choice${NC}"
+    exit 1
+fi
+
+# =========================================
+# BACKUP CONFIGS
+# =========================================
+
+echo -e "\n${BLUE}[*] Backing up configs...${NC}"
+
+mkdir -p "$HOME/.config"
+
+configs=(
+    "kitty"
+    "nvim"
+    "btop"
+    "rofi"
+    "dunst"
+    "fastfetch"
+    "yazi"
+    "$WM_DIR"
+)
+
+if [ "$wm_choice" = "1" ]; then
+    configs+=("polybar" "picom")
+fi
+
+if [ "$wm_choice" = "2" ]; then
+    configs+=("waybar")
+fi
 
 for config in "${configs[@]}"; do
-  if [ -d "$HOME/.config/$config" ] && [ ! -L "$HOME/.config/$config" ]; then
-    mv "$HOME/.config/$config" "$HOME/.config/${config}.bak"
-    echo -e "Backed up $config"
-  fi
+
+    if [ -d "$HOME/.config/$config" ] && [ ! -L "$HOME/.config/$config" ]; then
+
+        mv \
+            "$HOME/.config/$config" \
+            "$HOME/.config/${config}.bak"
+
+        echo -e "${YELLOW}Backed up:${NC} $config"
+    fi
 done
 
-# --- Step 6: Create the Symlinks ---
-echo -e "\n${BLUE}[*] Wiring symlinks to ~/dotfiles...${NC}"
+# =========================================
+# CREATE SYMLINKS
+# =========================================
+
+echo -e "\n${BLUE}[*] Creating symlinks...${NC}"
 
 for config in "${configs[@]}"; do
-  # Remove existing symlink if it exists
-  rm -rf "$HOME/.config/$config" 2>/dev/null
-  # Create new symlink
-  ln -s "$HOME/dotfiles/$config" "$HOME/.config/$config"
-  echo -e "${GREEN}✔ Linked $config${NC}"
+
+    rm -rf "$HOME/.config/$config" 2>/dev/null
+
+    ln -s \
+        "$HOME/dotfiles/$config" \
+        "$HOME/.config/$config"
+
+    echo -e "${GREEN}✔ Linked:${NC} $config"
 done
 
-# --- Step 7: Change Default Shell ---
-echo -e "\n${BLUE}[*] Setting ZSH as the default shell...${NC}"
-chsh -s $(which zsh)
+# =========================================
+# SHELL SETUP
+# =========================================
 
-echo -e "\n${GREEN}=======================================${NC}"
-echo -e "${GREEN}   Installation Complete! 🚀           ${NC}"
-echo -e "${GREEN}=======================================${NC}"
-echo "Wi-Fi and Bluetooth services have been activated."
-echo "Please completely reboot your system to apply all hardware changes."
+echo -e "\n${BLUE}[*] Setting zsh as default shell...${NC}"
+
+chsh -s "$(which zsh)"
+
+# =========================================
+# FINAL MESSAGE
+# =========================================
+
+echo
+echo -e "${GREEN}===========================================${NC}"
+echo -e "${GREEN}         Installation Complete 🚀          ${NC}"
+echo -e "${GREEN}===========================================${NC}"
+
+echo
+echo -e "${YELLOW}Next Steps:${NC}"
+echo "1. Reboot system"
+echo "2. Login into i3/Hyprland"
+echo "3. Run: fastfetch"
+echo "4. Enjoy the setup"
+echo
