@@ -20,8 +20,7 @@ exec --no-startup-id nm-applet
 exec_always --no-startup-id feh --bg-fill ~/dotfiles/wallpaper/wallhaven1.png
 # Start the notification daemon
 exec --no-startup-id dunst
-# Launch OpenCode in a floating terminal (example using kitty or alacritty)
-bindsym $mod+Shift+o exec --no-startup-id alacritty -e opencode
+
 exec --no-startup-id kdeconnect-indicator
 
 # Start DaemonV Background Observer
@@ -74,7 +73,7 @@ bindsym $mod+Shift+l move right
 
 # --- Tiling Modifiers ---
 # Split horizontal
-bindsym $mod+b split h
+bindsym $mod+n exec --no-startup-id redshift -O 3500
 # Split vertical
 bindsym $mod+Shift+v split v
 # Fullscreen
