@@ -24,7 +24,8 @@ exec --no-startup-id dunst
 exec --no-startup-id kdeconnect-indicator
 
 # Start DaemonV Background Observer
-exec --no-startup-id rm -f ~/.daemonv.lock && java -jar ~/.daemonv/daemonv.jar
+exec --no-startup-id bash -c "rm -f ~/.daemonv.lock; java -jar ~/.daemonv/daemonv.jar"
+
 # Launch btop in a dedicated terminal on boot
 exec --no-startup-id kitty -T "SystemMonitor" btop --utf-force
 for_window [title="SystemMonitor"] border pixel 0
