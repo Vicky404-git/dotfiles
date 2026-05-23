@@ -18,6 +18,10 @@
       "3": "III",
       "4": "IV",
       "5": "V",
+      "6":"VI",
+      "7": "VIC",
+      "8": "VICK",
+      "9": "VICKY",
       "default": ""
     },
     "persistent-workspaces": {
@@ -46,6 +50,5 @@
   "pulseaudio": {
     "format": "📯 {volume}%",
     "format-muted": "🔇 Silenced"
-  }
   }
 }

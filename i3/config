@@ -30,6 +30,13 @@ exec --no-startup-id bash -c "rm -f ~/.daemonv.lock; java -jar ~/.daemonv/daemon
 exec --no-startup-id kitty -T "SystemMonitor" btop --utf-force
 for_window [title="SystemMonitor"] border pixel 0
 
+# --- Floating Lyrics ---
+# Force it to float, center it, remove borders, and set a clean size
+for_window [class="floating_lyrics"] floating enable, move position center, resize set 800 600, border pixel 0
+
+# Bind a key (e.g., Super + m) to launch the lyrics window
+bindsym $mod+m exec kitty --class floating_lyrics -e sptlrx
+
 # --- Visuals (Gaps & Borders) ---
 gaps inner 5
 gaps outer 10
