@@ -35,7 +35,7 @@ for_window [title="SystemMonitor"] border pixel 0
 for_window [class="floating_lyrics"] floating enable, move position center, resize set 800 600, border pixel 0
 
 # Toggle Music HUD (Glava + Lyrics)
-bindsym $mod+m exec --no-startup-id ~/.config/i3/toggle_music_hud.sh
+bindsym $mod+m exec kitty --class floating_lyrics -e sptlrx
 
 # --- Visuals (Gaps & Borders) ---
 gaps inner 5
