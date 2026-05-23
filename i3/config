@@ -49,6 +49,13 @@ bindsym $mod+d exec "rofi -show drun"
 # Close Window
 bindsym $mod+q kill
 
+# --- Night Mode (Redshift) ---
+# Turn night mode on (Adjust 4500 to your preferred temperature)
+bindsym $mod+n exec --no-startup-id redshift -O 4500
+
+# Turn night mode off
+bindsym $mod+Shift+n exec --no-startup-id redshift -x
+
 # Reload config (Hyprland was Mod+Shift+R, i3 usually uses Mod+Shift+C to reload and R to restart)
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
@@ -73,7 +80,7 @@ bindsym $mod+Shift+l move right
 
 # --- Tiling Modifiers ---
 # Split horizontal
-bindsym $mod+n exec --no-startup-id redshift -O 3500
+bindsym $mod+b split h
 # Split vertical
 bindsym $mod+Shift+v split v
 # Fullscreen
