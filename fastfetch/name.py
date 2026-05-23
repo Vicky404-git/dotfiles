@@ -41,12 +41,12 @@ for y, line in enumerate(lines):
             
             # Map the hue: 0.65 is Deep Blue, 0.35 is Neon Green
             # As diag_pos increases, we smoothly subtract from blue towards green
-            hue = 0.65 - (diag_pos * 0.30)
+            hue = 0.65 #- (diag_pos * 0.30)
             
             r, g, b = [int(v * 255) for v in colorsys.hsv_to_rgb(hue, 1.0, 1.0)]
             
             # Inject the exact pixel's 24-bit color code
-            output += f"\033[38;2;{r};{g};{b}m"
+            output += "\033[36m"
             
             # Drop in your name letter
             output += name[name_idx % name_len]
