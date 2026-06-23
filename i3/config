@@ -162,7 +162,8 @@ bindsym XF86AudioNext exec playerctl next
 # --- Exit i3 ---
 # Custom Rofi Power Menu
 bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/powermenu.sh
-
+# Launch Theme Switcher Menu
+bindsym $mod+t exec ~/.config/i3/rofi_theme.sh
 # --- Status Bar ---
 exec_always --no-startup-id ~/.config/polybar/launch.sh
 
