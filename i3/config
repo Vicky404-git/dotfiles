@@ -6,6 +6,9 @@ set $mod Mod4
 # Font for window titles and bar
 font pango:monospace 10
 
+exec --no-startup-id /home/vicky-404/Desktop/Projects/aalas-ka-hit/app.sh
+for_window [title="aalas-ka-hit.*"] floating enable
+
 default_border pixel 2
 default_floating_border pixel 2
 
@@ -125,10 +128,10 @@ bindsym $mod+5 workspace 5; exec --no-startup-id feh --bg-fill ~/.config/wallpap
 
 # Optional: Add 6-10 if you use them
 bindsym $mod+6 workspace 6; exec --no-startup-id feh --bg-fill ~/.config/wallpapers/current/1.jpg
-bindsym $mod+7 workspace 7; exec --no-startup-id feh --bg-fill ~/.config/wallpapers/current/1.jpg
-bindsym $mod+8 workspace 8; exec --no-startup-id feh --bg-fill ~/.config/wallpapers/current/2.jpg
-bindsym $mod+9 workspace 9; exec --no-startup-id feh --bg-fill ~/.config/wallpapers/current/3.jpg
-bindsym $mod+0 workspace 0; exec --no-startup-id feh --bg-fill ~/.config/wallpapers/current/4.jpg
+bindsym $mod+7 workspace 7; exec --no-startup-id feh --bg-fill ~/.config/wallpapers/current/2.jpg
+bindsym $mod+8 workspace 8; exec --no-startup-id feh --bg-fill ~/.config/wallpapers/current/3.jpg
+bindsym $mod+9 workspace 9; exec --no-startup-id feh --bg-fill ~/.config/wallpapers/current/4.jpg
+bindsym $mod+0 workspace 0; exec --no-startup-id feh --bg-fill ~/.config/wallpapers/current/5.jpg
 
 
 
@@ -137,6 +140,12 @@ bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
 bindsym $mod+Shift+4 move container to workspace number $ws4
 bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws0
+
 
 # --- Screenshots  ---
 # Screenshot
