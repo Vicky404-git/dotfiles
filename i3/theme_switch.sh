@@ -6,7 +6,7 @@ THEME=$1
 BASE_DIR="$HOME/.config/wallpapers"
 
 if [ -z "$THEME" ]; then
-  echo "Usage: ./theme_switch.sh [medieval|game|anime]"
+  echo "Usage: ./theme_switch.sh [medieval|game|anime|oldPCs]"
   exit 1
 fi
 

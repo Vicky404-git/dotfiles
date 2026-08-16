@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Define the visual options
-options="🗡 Medieval\n🎮 Game\n🌸 Anime"
+options="🗡 Medieval\n🎮 Game\n🌸 Anime\n🖥️ OldPCs "
 
 # Pipe into Rofi and capture the selection
 chosen=$(echo -e "$options" | rofi -dmenu -i -p "🔮 Vibe: ")
@@ -16,5 +16,8 @@ case "$chosen" in
   ;;
 *"Anime"*)
   ~/.config/i3/theme_switch.sh anime
+  ;;
+*"OldPCs"*)
+  ~/.config/i3/theme_switch.sh oldPCs
   ;;
 esac
